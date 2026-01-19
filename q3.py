@@ -66,8 +66,36 @@ def find_overloaded_users(events):
         >>> find_overloaded_users([(1, 1), (1, 20), (1, 40)])
         set()
     """
-    # TODO: Implement your solution here
-    pass
+    from collections import defaultdict
+    
+    user_events = defaultdict(list)
+    
+    # Group events by user_id and sort by timestamp
+    for user_id, timestamp in events:
+        user_events[user_id].append(timestamp)
+    
+    # For each user, sort their timestamps
+    for user_id in user_events:
+        user_events[user_id].sort()
+    
+    overloaded = set()
+    
+    # Check each user for overload condition
+    for user_id, timestamps in user_events.items():
+        # Check if any 10-second window contains 3+ events
+        for i in range(len(timestamps)):
+            count = 0
+            for j in range(i, len(timestamps)):
+                if timestamps[j] - timestamps[i] < 10:
+                    count += 1
+                else:
+                    break
+            
+            if count >= 3:
+                overloaded.add(user_id)
+                break
+    
+    return overloaded
 
 
 if __name__ == "__main__":
