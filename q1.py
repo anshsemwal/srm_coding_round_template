@@ -61,7 +61,6 @@ def first_stable_character(s):
         first_idx = s.find(char)
         last_idx = s.rfind(char)
         
-        # Check if it appears at least twice and all occurrences are continuous
         if first_idx != last_idx:
             substring = s[first_idx:last_idx+1]
             if all(c == char for c in substring):
